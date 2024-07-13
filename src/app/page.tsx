@@ -1,28 +1,23 @@
 import { db } from "~/server/db";
 
-const mockUrls = [
-  "https://utfs.io/f/ada6bfbb-6e3c-4522-91e8-a35f51d3fe20-7ryamc.png",
-  "https://utfs.io/f/32693d40-1703-43af-82bd-d78994d8c599-sy3n9e.png",
-  "https://utfs.io/f/b4a6318f-dfb7-4382-b71f-589749ae7177-vbzg9s.png",
-];
-
-const mockImages = mockUrls.map((url, index) => ({
-  id: index + 1,
-  url,
-}));
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const posts = await db.query.posts.findMany();
-  console.log(posts);
+  const images = await db.query.images.findMany({
+    orderBy: (model, { desc }) => desc(model.id),
+  });
+
+  console.log(images);
   return (
     <main className="">
       <div className="flex flex-wrap gap-4">
-        {posts.map((p) => (
+        {images.map((p) => (
           <div key={p.id}>{p.name}</div>
         ))}
-        {[...mockImages, ...mockImages, ...mockImages].map((image, idx) => (
-          <div key={idx} className="w-48">
+        {[...images, ...images, ...images].map((image, idx) => (
+          <div key={idx} className="flex w-48 flex-col">
             <img src={image.url} alt="image" />
+            <div>{image.name}</div>
           </div>
         ))}
       </div>
