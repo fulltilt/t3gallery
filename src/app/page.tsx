@@ -7,13 +7,9 @@ export default async function HomePage() {
     orderBy: (model, { desc }) => desc(model.id),
   });
 
-  console.log(images);
   return (
     <main className="">
       <div className="flex flex-wrap gap-4">
-        {images.map((p) => (
-          <div key={p.id}>{p.name}</div>
-        ))}
         {[...images, ...images, ...images].map((image, idx) => (
           <div key={idx} className="flex w-48 flex-col">
             <img src={image.url} alt="image" />
